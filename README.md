@@ -212,4 +212,101 @@ async function generarWord(datos) {
 ## Licencia
 
 ISC
+## 🐳 Docker
+
+La aplicación está completamente dockerizada para facilitar el despliegue y desarrollo.
+
+### 🚀 Inicio Rápido con Docker
+
+#### Opción 1: Docker Compose (Recomendado)
+
+```bash
+# Construir e iniciar la aplicación
+docker-compose up --build -d
+
+# Ver logs
+docker-compose logs -f generador-tutela
+
+# Detener
+docker-compose down
+```
+
+#### Opción 2: Scripts de Ayuda
+
+**Windows:**
+```cmd
+# Ver todos los comandos disponibles
+docker-scripts.bat
+
+# Iniciar aplicación
+docker-scripts.bat start
+
+# Modo desarrollo
+docker-scripts.bat dev
+```
+
+**Linux/Mac:**
+```bash
+# Ver todos los comandos disponibles
+./docker-scripts.sh
+
+# Iniciar aplicación
+./docker-scripts.sh start
+
+# Modo desarrollo
+./docker-scripts.sh dev
+```
+
+### 📋 Pruebas de la API
+
+Una vez que la aplicación esté ejecutándose:
+
+**Windows:**
+```cmd
+test-api.bat
+```
+
+**Linux/Mac:**
+```bash
+./test-api.sh
+```
+
+### 📖 Documentación Completa de Docker
+
+Para información detallada sobre Docker, consulta el archivo [DOCKER.md](./DOCKER.md) que incluye:
+
+- Configuración avanzada
+- Troubleshooting
+- Monitoreo y logs
+- Variables de entorno
+- Configuración de recursos
+- Seguridad
+
+### 🔧 Comandos Básicos
+
+```bash
+# Construir imagen
+docker-compose build
+
+# Iniciar en segundo plano
+docker-compose up -d
+
+# Ver estado
+docker-compose ps
+
+# Ver logs
+docker-compose logs -f
+
+# Acceder al contenedor
+docker-compose exec generador-tutela sh
+
+# Limpiar todo
+docker-compose down --rmi all --volumes --remove-orphans
+```
+
+### 🌐 Acceso
+
+Una vez iniciada, la aplicación estará disponible en:
+- **URL**: http://localhost:3000
+- **API**: http://localhost:3000/ejemplo-datos
 
