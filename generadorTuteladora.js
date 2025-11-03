@@ -44,6 +44,7 @@ async function generarAccionTutela(datos = {}, rutaSalida = './accion_tutela_gen
  */
 async function generarAccionTutelaWord(datos = {}, rutaSalida) {
   try {
+    const fechaHoy = new Date().toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
     // Crear un documento Word completo con contenido real
     const doc = new Document({
       sections: [{
@@ -61,6 +62,16 @@ async function generarAccionTutelaWord(datos = {}, rutaSalida) {
             alignment: AlignmentType.CENTER,
             spacing: {
               after: 400
+            }
+          }),
+          // Fecha actual
+          new Paragraph({
+            children: [
+              new TextRun({ text: `Fecha: ${fechaHoy}` })
+            ],
+            alignment: AlignmentType.RIGHT,
+            spacing: {
+              after: 200
             }
           }),
           
