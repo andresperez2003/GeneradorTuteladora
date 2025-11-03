@@ -90,8 +90,8 @@ async function generarAccionTutelaWord(datos = {}, rutaSalida) {
           new Paragraph({
             children: [
               new TextRun({text: `C.C. `, bold: true}),
-              new TextRun({text: `${datos.accionante?.cedula || 'NÚMERO DE CÉDULA'}`, bold: false}),
-              new TextRun({text: `de ${datos.accionante?.entidad || 'ENTIDAD'} `, bold: false}),
+              new TextRun({text: `${datos.accionante?.cedula || 'NÚMERO DE CÉDULA'} `, bold: false}),
+              new TextRun({text: `de ${datos.accionante?.ciudadExpedicion || 'CIUDAD DE EXPEDICIÓN'} `, bold: false}),
             ],
             spacing: {
               after: 200
