@@ -399,10 +399,13 @@ async function generarAccionTutelaWord(datos = {}, rutaSalida = './accion_tutela
       }]
     });
 
-    // Guardar el documento
+    // Generar buffer del documento
     const buffer = await Packer.toBuffer(doc);
-    fs.writeFileSync(rutaSalida, buffer);
-    console.log(`✅ Documento Word generado correctamente en: ${rutaSalida}`);
+    // Escribir a disco solo si se proporciona una ruta explícita
+    if (rutaSalida) {
+      fs.writeFileSync(rutaSalida, buffer);
+      console.log(`✅ Documento Word generado correctamente en: ${rutaSalida}`);
+    }
 
     return buffer;
 

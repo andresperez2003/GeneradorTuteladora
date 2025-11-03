@@ -59,31 +59,16 @@ app.post('/generar-word', async (req, res) => {
   try {
     const datos = req.body;
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const nombreArchivo = `test_word_${timestamp}.docx`;
-    const carpeta = path.join(__dirname, 'generados');
-    if (!fs.existsSync(carpeta)) fs.mkdirSync(carpeta);
-    const rutaArchivo = path.join(carpeta, nombreArchivo);
+    const nombreArchivo = `accion_tutela_${timestamp}.docx`;
 
-    // Genera y guarda el archivo (tu función lo hace)
-    await generarAccionTutelaWord(datos, rutaArchivo);
+    // Generar el buffer del documento sin escribir a disco
+    const buffer = await generarAccionTutelaWord(datos);
 
-    // Opcional: setear headers (res.download los setea, pero puedes forzarlos si quieres)
+    // Enviar para descarga directa
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
     res.setHeader('Content-Disposition', `attachment; filename="${nombreArchivo}"`);
-
-    // Descargar y luego eliminar archivo temporal
-    res.download(rutaArchivo, nombreArchivo, (err) => {
-      if (err) {
-        console.error('Error enviando el archivo:', err);
-        // No eliminar si quieres diagnosticar; o eliminar igualmente:
-        // fs.unlinkSync(rutaArchivo);
-      } else {
-        // Eliminamos el archivo temporal para no acumular
-        fs.unlink(rutaArchivo, (unlinkErr) => {
-          if (unlinkErr) console.error('Error al eliminar archivo temporal:', unlinkErr);
-        });
-      }
-    });
+    res.setHeader('Content-Length', Buffer.byteLength(buffer));
+    res.end(buffer);
 
   } catch (error) {
     console.error('Error al generar Word:', error);
