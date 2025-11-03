@@ -10,6 +10,15 @@ const app = express();
 app.use(cors({ origin: '*', methods: ['GET', 'POST'], allowedHeaders: ['Content-Type'] }));
 app.use(express.json());
 
+// Manejadores globales para evitar que la app se detenga ante errores no controlados
+process.on('uncaughtException', (error) => {
+  console.error('❌ Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('❌ Unhandled Rejection:', reason);
+});
+
 // Página base
 app.get('/', (req, res) => {
   res.send(`
@@ -74,6 +83,13 @@ app.post('/generar-word', async (req, res) => {
     console.error('Error al generar Word:', error);
     res.status(500).json({ error: error.message });
   }
+});
+
+// Middleware de manejo de errores de Express (último antes del listen)
+app.use((err, req, res, next) => {
+  console.error('❌ Error en middleware:', err);
+  if (res.headersSent) return next(err);
+  res.status(500).json({ error: 'Error interno del servidor' });
 });
 
 
