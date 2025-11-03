@@ -67,48 +67,20 @@ async function generarAccionTutelaWord(datos = {}, rutaSalida = './accion_tutela
           // Información del juez
           new Paragraph({
             children: [
-              new TextRun({
-                text: `Señor(a) ${datos.juez?.nombre || 'JUEZ DE REPARTO'}`,
-                bold: true
-              })
+              new TextRun({text: `Señor(a) `,bold: true}),
+              new TextRun({text: `${datos.juez?.nombre || 'JUEZ DE REPARTO'}`,bold: false})
             ],
             spacing: {
               after: 200
             }
           }),
           
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: `${datos.juez?.entidad || 'E.S.D'}`,
-                bold: true
-              })
-            ],
-            spacing: {
-              after: 400
-            }
-          }),
-
-          // Referencia
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: "REFERENCIA: ACCIÓN DE TUTELA",
-                bold: true
-              })
-            ],
-            spacing: {
-              after: 200
-            }
-          }),
 
           // Accionante
           new Paragraph({
             children: [
-              new TextRun({
-                text: `ACCIONANTE: ${datos.accionante?.nombre || 'NOMBRE DEL ACCIONANTE'}`,
-                bold: true
-              })
+              new TextRun({text: `ACCIONANTE: `, bold: true}),
+              new TextRun({text: `${datos.accionante?.nombre || 'NOMBRE DEL ACCIONANTE'}`, bold: false})
             ],
             spacing: {
               after: 100
@@ -117,10 +89,10 @@ async function generarAccionTutelaWord(datos = {}, rutaSalida = './accion_tutela
 
           new Paragraph({
             children: [
-              new TextRun({
-                text: `C.C. ${datos.accionante?.cedula || 'NÚMERO DE CÉDULA'} de ${datos.accionante?.ciudadExpedicion || 'CIUDAD'}`,
-                bold: true
-              })
+              new TextRun({text: `C.C. `, bold: true}),
+              new TextRun({text: `${datos.accionante?.cedula || 'NÚMERO DE CÉDULA'}`, bold: false}),
+              new TextRun({text: `de `, bold: false}),
+              new TextRun({text: `${datos.accionante?.ciudadExpedicion || 'CIUDAD'}`, bold: false})
             ],
             spacing: {
               after: 200
@@ -130,10 +102,8 @@ async function generarAccionTutelaWord(datos = {}, rutaSalida = './accion_tutela
           // Accionado
           new Paragraph({
             children: [
-              new TextRun({
-                text: `ACCIONADO: ${datos.accionado?.nombre || 'NOMBRE DEL ACCIONADO'}`,
-                bold: true
-              })
+              new TextRun({text: `ACCIONADO: `, bold: true}),
+              new TextRun({text: `${datos.accionado?.nombre || 'NOMBRE DEL ACCIONADO'}`, bold: false})
             ],
             spacing: {
               after: 400
@@ -337,8 +307,46 @@ async function generarAccionTutelaWord(datos = {}, rutaSalida = './accion_tutela
             }
           }),
 
-          // Firma
+          // Anexos
           new Paragraph({
+            children: [
+              new TextRun({
+                text: "VI. ANEXOS",
+                bold: true
+              })
+            ],
+            spacing: {
+              before: 400,
+              after: 200
+            }
+          }),
+
+          ...(datos.anexos && datos.anexos.length > 0 ? datos.anexos.map((anexo, index) =>
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: `${index + 1}. ${anexo}`
+                })
+              ],
+              spacing: {
+                after: 100
+              }
+            })
+          ) : [
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: "1. [Relación de anexos que se adjuntan]"
+                })
+              ],
+              spacing: {
+                after: 800
+              }
+            })
+          ]),
+
+          // Firma
+          /* new Paragraph({
             children: [
               new TextRun({
                 text: "Cordialmente,"
@@ -346,7 +354,20 @@ async function generarAccionTutelaWord(datos = {}, rutaSalida = './accion_tutela
             ],
             spacing: {
               before: 400,
-              after: 400
+              after: 600
+            }
+          }), */
+
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: '____________________________________________',
+                bold: true
+              })
+            ],
+            spacing: {
+              before: 800,
+              after: 100
             }
           }),
 
@@ -358,6 +379,7 @@ async function generarAccionTutelaWord(datos = {}, rutaSalida = './accion_tutela
               })
             ],
             spacing: {
+              before: 100,
               after: 100
             }
           }),

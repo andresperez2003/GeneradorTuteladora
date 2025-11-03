@@ -49,3 +49,4 @@ echo.
 echo 📁 Los archivos generados se guardan en: .\generados\
 echo 🌐 Aplicación disponible en: %BASE_URL%
 pause
+

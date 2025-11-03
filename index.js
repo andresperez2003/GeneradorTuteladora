@@ -54,7 +54,7 @@ app.post('/generar-pdf', async (req, res) => {
   }
 });
 
-// ✅ WORD
+
 app.post('/generar-word', async (req, res) => {
   try {
     const datos = req.body;
@@ -64,13 +64,32 @@ app.post('/generar-word', async (req, res) => {
     if (!fs.existsSync(carpeta)) fs.mkdirSync(carpeta);
     const rutaArchivo = path.join(carpeta, nombreArchivo);
 
+    // Genera y guarda el archivo (tu función lo hace)
     await generarAccionTutelaWord(datos, rutaArchivo);
 
-    res.download(rutaArchivo, nombreArchivo);
+    // Opcional: setear headers (res.download los setea, pero puedes forzarlos si quieres)
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', `attachment; filename="${nombreArchivo}"`);
+
+    // Descargar y luego eliminar archivo temporal
+    res.download(rutaArchivo, nombreArchivo, (err) => {
+      if (err) {
+        console.error('Error enviando el archivo:', err);
+        // No eliminar si quieres diagnosticar; o eliminar igualmente:
+        // fs.unlinkSync(rutaArchivo);
+      } else {
+        // Eliminamos el archivo temporal para no acumular
+        fs.unlink(rutaArchivo, (unlinkErr) => {
+          if (unlinkErr) console.error('Error al eliminar archivo temporal:', unlinkErr);
+        });
+      }
+    });
+
   } catch (error) {
     console.error('Error al generar Word:', error);
     res.status(500).json({ error: error.message });
   }
 });
 
-app.listen(3000, '0.0.0.0', () => console.log('🚀 Servidor escuchando en http://localhost:3000'));
+
+app.listen(3000, '0.0.0.0', () => console.log('🚀 Servidor escuchando'));
