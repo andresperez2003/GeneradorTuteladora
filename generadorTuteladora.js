@@ -42,7 +42,7 @@ async function generarAccionTutela(datos = {}, rutaSalida = './accion_tutela_gen
 /**
  * Genera un documento Word (.docx) de Acción de Tutela basado en los datos proporcionados
  */
-async function generarAccionTutelaWord(datos = {}, rutaSalida = './accion_tutela_generada.docx') {
+async function generarAccionTutelaWord(datos = {}, rutaSalida) {
   try {
     // Crear un documento Word completo con contenido real
     const doc = new Document({
