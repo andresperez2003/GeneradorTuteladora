@@ -7,7 +7,9 @@ const { generarAccionTutelaWord, generarAccionTutela } = require('./generadorTut
 const app = express();
 
 // Configurar CORS
-app.use(cors({ origin: '*', methods: ['GET', 'POST'], allowedHeaders: ['Content-Type'] }));
+// En producción define CORS_ORIGIN con el dominio del frontend (separa varios con comas)
+const corsOrigin = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').map(o => o.trim()) : '*';
+app.use(cors({ origin: corsOrigin, methods: ['GET', 'POST'], allowedHeaders: ['Content-Type'] }));
 app.use(express.json());
 
 // Manejadores globales para evitar que la app se detenga ante errores no controlados
@@ -93,4 +95,5 @@ app.use((err, req, res, next) => {
 });
 
 
-app.listen(3000, '0.0.0.0', () => console.log('🚀 Servidor escuchando'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Servidor escuchando en el puerto ${PORT}`));
